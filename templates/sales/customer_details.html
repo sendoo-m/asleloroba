@@ -46,6 +46,7 @@
             <table class="table table-bordered table-hover">
               <thead class="thead-dark">
                 <tr>
+                  <th>ID</th>
                   <th>Date</th>
                   <th>Product</th>
                   <th>Quantity</th>
@@ -56,6 +57,7 @@
               <tbody>
                 {% for sale in sales %}
                 <tr>
+                  <td><a href="{% url 'invoice_details' sale.id %}" class="btn btn-secondary">{{ sale.id }}</a></td>
                   <td>{{ sale.sale_date }}</td>
                   <td>{{ sale.product.title }}</td>
                   <td>{{ sale.qty }}</td>

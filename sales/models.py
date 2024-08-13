@@ -11,7 +11,16 @@ from django.db.models import Count
 from django.db.models import Sum, F
 import datetime  # Make sure this import is at the top of your file
 
+class CompanyInformation(models.Model):
+    name = models.CharField(max_length=255, default="Your Company Name")
+    address_line_1 = models.CharField(max_length=255, blank=True, null=True)
+    address_line_2 = models.CharField(max_length=255, blank=True, null=True)
+    phone = models.CharField(max_length=20, default="(555) 123-4567")
+    email = models.EmailField(default="info@yourcompany.com")
 
+    def __str__(self):
+        return self.name
+        
 # Vendor
 class Vendor(models.Model):
     full_name   = models.CharField(max_length=100)

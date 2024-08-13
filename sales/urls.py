@@ -5,6 +5,9 @@ from django.conf.urls.static import static
 from django.conf import settings 
 
 urlpatterns = [
+    path('company-info/', views.company_info, name='company_info'),
+    path('update-company-info/', views.update_company_info, name='update_company_info'),
+
     path('', views.home, name='home'),
     
     path('register_customer/', views.register_customer, name='register_customer'),
@@ -15,13 +18,15 @@ urlpatterns = [
 
     path('register_vendor/', views.register_vendor, name='register_vendor'),
     path('vendor_list/', views.vendor_list, name='vendor_list'),
-    path('vendor/<pk>/update/', views.update_vendor, name='update_vendor'),
-    path('vendor/<int:vendor_id>/', vendor_details, name='vendor_details'),
     path('vendor/<int:pk>/delete/', views.VendorDeleteView.as_view(), name='delete_vendor'),
+    path('vendor/<int:vendor_id>/', views.vendor_details, name='vendor_details'),
+    path('vendor/<int:pk>/update/', views.update_vendor, name='update_vendor'),  # This should use 'pk'
 
     path('sale_list/', views.sale_list, name='sale_list'),
     path('sale/', views.sale, name='sale'),
     path('payment/', views.payment, name='payment'),
+    path('invoice/<int:pk>/', views.invoice_details, name='invoice_details'),
+
 
     path('inventory_list/', views.inventory_list, name='inventory_list'),
 

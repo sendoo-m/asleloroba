@@ -38,6 +38,8 @@ class ReturnAdmin(admin.ModelAdmin):
         return f"{obj.sale.product.title} by {obj.sale.customer.name}"
 
 
+
+admin.site.register(CompanyInformation)
 admin.site.register(Vendor,VendorAdmin)
 admin.site.register(Unit,UnitAdmin)
 admin.site.register(Payment,PaymentAdmin)

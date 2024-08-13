@@ -39,9 +39,10 @@
   
       {{ form|crispy }}
   
-  <button class="btn btn-primary" type="submit">Create</button>
+      <div class="d-flex justify-content-between mt-3">
+        <button class="btn btn-primary" type="submit">Create</button>
+        <a href="{% url 'vendor_list' %}" class="btn btn-secondary">View vendors</a>
 </form>
-<div><a href="{% url 'vendor_list' %}" class="btn btn-primary">View Vendors</a></div>
 
 </div>
 </div>

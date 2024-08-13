@@ -15,6 +15,27 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.http import JsonResponse
 import json
 
+
+from django.shortcuts import render, get_object_or_404
+from .models import CompanyInformation
+
+def company_info(request):
+    company = get_object_or_404(CompanyInformation, pk=1)  # Assuming there is only one company info record
+    return render(request, 'company_info.html', {'company': company})
+
+def update_company_info(request):
+    company = get_object_or_404(CompanyInformation, pk=1)
+    if request.method == 'POST':
+        company.name = request.POST.get('name', company.name)
+        company.address_line_1 = request.POST.get('address_line_1', company.address_line_1)
+        company.address_line_2 = request.POST.get('address_line_2', company.address_line_2)
+        company.phone = request.POST.get('phone', company.phone)
+        company.email = request.POST.get('email', company.email)
+        company.save()
+        return render(request, 'company_info.html', {'company': company, 'success': 'Company info updated successfully'})
+    return render(request, 'update_company_info.html', {'company': company})
+
+
 # Vendor List View
 @login_required
 def home(request):
@@ -437,7 +458,7 @@ def vendor_details(request, vendor_id):
     }
     
     return render(request, 'sales/vendor_details.html', context)
-
+ 
 # Customer Details View
 @login_required
 def customer_details(request, pk):
@@ -464,9 +485,40 @@ def customer_details(request, pk):
         'page_obj': page_obj,
     })
 
+# invoice Details View
+@login_required
+def invoice_details(request, pk):
+    # Retrieve the Sale object based on the pk
+    sale = get_object_or_404(Sale, pk=pk)
+    customer = sale.customer  # Assuming Sale has a ForeignKey to Customer
+    payments = Payment.objects.filter(customer=customer)
+    sales = Sale.objects.filter(customer=customer)
+
+    total_purchases = sum(sale.total_amt for sale in sales)
+    total_paid = sum(payment.amount for payment in payments)
+    balance = total_purchases - Decimal(total_paid)
+
+    # Fetch company information
+    company = get_object_or_404(CompanyInformation, pk=1)  # Assuming you only have one record
+
+    paginator = Paginator(payments, 10)  # Show 10 purchases per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'sales/invoice_details.html', {
+        'sale': sale,
+        'customer': customer,
+        'total_purchases': total_purchases,
+        'total_paid': total_paid,
+        'balance': balance,
+        'payments': payments,
+        'sales': sales,
+        'page_obj': page_obj,
+        'company': company,  # Add company info to the context
+    })
+
 
 # Update Customer View
-
 @login_required
 def update_customer(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
@@ -521,7 +573,7 @@ def update_vendor(request, pk):
         form = VendorForm(request.POST, request.FILES, instance=vendor)
         if form.is_valid():
             form.save()
-            return redirect('vendor_details', pk=pk)
+            return redirect('vendor_details', vendor_id=pk)  # Change 'pk' to 'vendor_id'
     else:
         form = VendorForm(instance=vendor)
     return render(request, 'sales/update_vendor.html', {'form': form})
@@ -529,10 +581,6 @@ def update_vendor(request, pk):
 ############################################
 ############################################
 ############################################
-import json
-from django.shortcuts import render
-from django.db.models import Sum, F
-from decimal import Decimal
 
 import json
 from django.shortcuts import render

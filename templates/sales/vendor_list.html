@@ -40,7 +40,7 @@
                 <td>{{ vendor.phone }}</td>
                 <td>{{ vendor.address }}</td>
                 <td class="text-center">
-                    <a href="{% url 'vendor_details' vendor.pk %}" class="btn btn-sm btn-info">Details</a>
+                    <a href="{% url 'vendor_details' vendor_id=vendor.id %}" class="btn btn-sm btn-info">View Details</a>
                     <a href="{% url 'update_vendor' vendor.pk %}" class="btn btn-sm btn-warning">Update</a>
                     <a href="{% url 'delete_vendor' vendor.pk %}" class="btn btn-sm btn-danger"
                        onclick="return confirm('Are you sure you want to delete this vendor?');">Delete</a>
