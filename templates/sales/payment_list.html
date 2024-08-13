@@ -1,0 +1,89 @@
+{% extends 'parts/base.html' %}
+
+{% block title %}List of Payments | قائمة المدفوعات{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="text-center">Payments</h1>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col">
+            <!-- Search Form -->
+            <form method="GET" action="{% url 'payment_list' %}" class="form-inline mb-3">
+                <input type="text" name="search" class="form-control mr-sm-2" placeholder="Search by Customer or Vendor" value="{{ search_query }}">
+                <button type="submit" class="btn btn-outline-success mr-2">Search</button>
+                <a href="{% url 'payment_list' %}" class="btn btn-outline-secondary">Clear</a>
+            </form>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <a href="{% url 'payment_create' %}" class="btn btn-primary mb-3">Create New Payment</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-hover table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Customer</th>
+                        <th>Vendor</th>
+                        <th>Receipt Number</th>
+                        <th>Paid</th>
+                        <th>Amount</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for payment in payments %}
+                    <tr>
+                        <td>{{ payment.customer.name }}</td>
+                        <td>{{ payment.vendor.full_name }}</td>
+                        <td>{{ payment.installment_number }}</td>
+                        <td>{{ payment.paid|yesno:"Yes,No" }}</td>
+                        <td>{{ payment.amount }} SAR</td>
+                        
+                        <td class="text-center">
+                            <a href="{% url 'payment_receipt' payment.pk %}" class="btn btn-sm btn-info">Receipt</a>
+                            <a href="{% url 'payment_update' payment.pk %}" class="btn btn-sm btn-warning">Update</a>
+                            <a href="{% url 'payment_delete' payment.pk %}" class="btn btn-sm btn-danger"
+                               onclick="return confirm('Are you sure you want to delete this payment?');">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?search={{ search_query }}&page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item"><a class="page-link" href="?search={{ search_query }}&page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?search={{ search_query }}&page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}

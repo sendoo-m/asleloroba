@@ -1,0 +1,16 @@
+<!-- sales/templates/sales/view_reports.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Reports</title>
+</head>
+<body>
+    <h1>Reports</h1>
+    <ul>
+        {% for report in reports %}
+            <li>{{ report.report_name }} - Total Day: ${{ report.total_day }} - Total Customers: {{ report.total_customer }} - Total Storage: {{ report.total_storage }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

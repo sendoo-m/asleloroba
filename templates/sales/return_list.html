@@ -1,0 +1,12 @@
+{% extends 'parts/base.html' %}
+
+{% block title %}Product Report{% endblock %}
+
+{% block content %}
+<h1>Return List</h1>
+<ul>
+    {% for return in returns %}
+    <li>{{ return.product.name }} - {{ return.reason }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,17 @@
+<!-- sales/templates/sales/installment_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Installment List</title>
+</head>
+<body>
+    <h1>Installment List</h1>
+    <ul>
+        {% for installment in installments %}
+            <li>{{ installment.customer.name }} - Total Paid: ${{ installment.total_paid }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'manage_installment' %}">Add New Installment Plan</a>
+</body>
+</html>

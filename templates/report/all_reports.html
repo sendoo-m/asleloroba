@@ -1,0 +1,118 @@
+{% extends 'parts/base.html' %}
+
+{% load crispy_forms_tags %}
+{% block title %}All Reports{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">All Reports</h1>
+    
+    <h2 class="mb-4">Overall Statistics</h2>
+    <div class="row">
+        <!-- First Row -->
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-primary">
+                <div class="card-header">
+                    <h5 class="card-title">Total Products</h5>
+                </div>
+                <div class="card-body text-dark bg-light">
+                    <p class="card-text display-4">{{ total_products }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-info">
+                <div class="card-header">
+                    <h5 class="card-title">Total Sales </h5>
+                </div>
+                <div class="card-body text-dark bg-light">
+                    <p class="card-text display-4">{{ total_sales_qty }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Row -->
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-warning">
+                <div class="card-header">
+                    <h5 class="card-title">Total Purchases (SAR)</h5>
+                </div>
+                <div class="card-body text-dark bg-light">
+                    <p class="card-text display-4">{{ total_purchases }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-secondary">
+                <div class="card-header">
+                    <h5 class="card-title">Total Income (SAR)</h5>
+                </div>
+                <div class="card-body text-dark bg-light">
+                    <p class="card-text display-4">{{ total_income }}</p>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Third Row -->
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-dark">
+                <div class="card-header">
+                    <h5 class="card-title">Net Profit (SAR)</h5>
+                </div>
+                <div class="card-body text-dark bg-light">
+                    <p class="card-text display-4">{{ net_profit }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fourth Row -->
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-primary">
+                <div class="card-header">
+                    <h5 class="card-title">Total Customers</h5>
+                </div>
+                <div class="card-body text-dark bg-light">
+                    <p class="card-text display-4">{{ total_customers }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-info">
+                <div class="card-header">
+                    <h5 class="card-title">Total Employees</h5>
+                </div>
+                <div class="card-body text-dark bg-light">
+                    <p class="card-text display-4">{{ total_employees }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <h2 class="mt-5">Product Statistics</h2>
+    <div class="row">
+        {% for product in product_stats %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-header text-white bg-primary">
+                    <h5 class="card-title">{{ product.product.title }}</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Total Purchase Quantity:</strong> {{ product.total_purchase_qty }}</p>
+                    <p><strong>Total Sales Quantity:</strong> {{ product.total_sales_qty }}</p>
+                    <p><strong>Total Inventory:</strong> {{ product.total_inventory }}</p>
+                    <p><strong>Total Revenue (SAR):</strong> {{ product.total_revenue }}</p>
+                    <p><strong>Total Cost (SAR):</strong> {{ product.total_cost }}</p>
+                    <p><strong>Profit (SAR):</strong> {{ product.product_profit }}</p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-warning text-center">
+                No data available.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+<!-- sales/templates/sales/storage_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Storage List</title>
+</head>
+<body>
+    <h1>Storage List</h1>
+    <ul>
+        {% for storage in storages %}
+            <li>{{ storage.chicken.chicken_type }} - In Stores: {{ storage.in_stores }} - Price: ${{ storage.purchasing_price }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'manage_storage' %}">Add New Storage Record</a>
+</body>
+</html>

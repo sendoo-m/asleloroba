@@ -1,0 +1,32 @@
+{% extends 'parts/base.html' %}
+
+{% block title %}Customer and Employee Report{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Customer and Employee Statistics</h1>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <div class="card text-white bg-primary">
+                <div class="card-header">
+                    <h5 class="card-title">Total Customers</h5>
+                </div>
+                <div class="card-body text-dark bg-light">
+                    <p class="card-text display-4">{{ total_customers }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card text-white bg-info">
+                <div class="card-header">
+                    <h5 class="card-title">Total Employees</h5>
+                </div>
+                <div class="card-body text-dark bg-light">
+                    <p class="card-text display-4">{{ total_employees }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+<style>
+    /* Header styling */
+    .header {
+        background-color: #f8f9fa; /* Light background color for the header */
+        position: fixed; /* Fix the header at the top */
+        top: 0;
+        left: 250px; /* Adjust this value according to the width of your sidebar */
+        width: calc(100% - 250px); /* Ensure the header takes the remaining width */
+        border-bottom: 1px solid #dee2e6; /* Optional: border for separation */
+        z-index: 1000; /* Ensure the header stays on top of other content */
+    }
+
+    /* Adjust the top padding of the main content to account for the header height */
+    main {
+        padding-top: 60px; /* Adjust this value based on the height of your header */
+    }
+
+    .site-name {
+        font-size: 1.5rem; /* Adjust the font size as needed */
+        color: #212529; /* Dark text color */
+    }
+
+    .btn-outline-danger {
+        font-size: 1rem; /* Adjust the font size as needed */
+    }
+</style>
+
+<!-- Sidebar (fixed) -->
+<nav class="sidebar bg-light p-3" id="sidebar">
+    <!-- Sidebar content here -->
+</nav>
+
+<!-- Header -->
+<header class="header py-3">
+    <div class="container d-flex justify-content-between align-items-center">
+        <!-- Site Name -->
+        <h1 class="site-name mb-0">Asl Eloroba</h1>
+
+        <!-- Logout Button -->
+        <a href="{% url 'logout' %}" class="btn btn-outline-danger">Logout</a>
+    </div>
+</header>

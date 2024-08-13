@@ -1,0 +1,27 @@
+{% extends 'parts/base.html' %}
+
+{% block title %}Delete Product | حذف المنتج{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header text-center bg-danger text-white">
+                    <h3>Confirm Deletion</h3>
+                </div>
+                <div class="card-body">
+                    <p class="lead text-center">Are you sure you want to delete <strong>{{ object.title }}</strong>?</p>
+                    <div class="text-center">
+                        <form method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <a href="{% url 'product_list' %}" class="btn btn-secondary">Cancel</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

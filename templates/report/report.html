@@ -1,0 +1,122 @@
+{% extends 'parts/base.html' %}
+
+{% block title %} Report{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">تقرير إجمالي المخزن والماليات</h1>
+
+    <div class="row">
+        <!-- Total Sales Quantity Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">إجمالي القطع المباعة</h5>
+                    <p class="card-text display-4" id="total-sales-qty">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Sales Amount Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">إجمالي المبيعات (ريال سعودي)</h5>
+                    <p class="card-text display-4" id="total-sales-amt">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Purchases Amount Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">إجمالي المشتريات (ريال سعودي)</h5>
+                    <p class="card-text display-4" id="total-purchases-amt">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Payments Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">إجمالي المدفوعات (ريال سعودي)</h5>
+                    <p class="card-text display-4" id="total-payments">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Net Profit Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-danger">
+                <div class="card-body">
+                    <h5 class="card-title">إجمالي الأرباح (ريال سعودي)</h5>
+                    <p class="card-text display-4" id="net-profit">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inventory Left Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-secondary">
+                <div class="card-body">
+                    <h5 class="card-title">المتبقي بالمخزن</h5>
+                    <p class="card-text display-4" id="inventory-left">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden divs to store raw data -->
+<div id="sales-data" style="display: none;">{{ sales|safe }}</div>
+<div id="purchases-data" style="display: none;">{{ purchases|safe }}</div>
+<div id="payments-data" style="display: none;">{{ payments|safe }}</div>
+<div id="inventory-data" style="display: none;">{{ inventory|safe }}</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get raw data from hidden divs
+        const salesData = JSON.parse(document.getElementById('sales-data').textContent);
+        const purchasesData = JSON.parse(document.getElementById('purchases-data').textContent);
+        const paymentsData = JSON.parse(document.getElementById('payments-data').textContent);
+        const inventoryData = JSON.parse(document.getElementById('inventory-data').textContent);
+
+        // Calculate totals
+        let totalSalesQty = 0;
+        let totalSalesAmt = 0;
+        let totalPurchasesAmt = 0;
+        let totalPayments = 0;
+        let totalInventoryLeft = 0;
+
+        salesData.forEach(sale => {
+            totalSalesQty += parseFloat(sale.qty);
+            totalSalesAmt += parseFloat(sale.total_amt);
+        });
+
+        purchasesData.forEach(purchase => {
+            totalPurchasesAmt += parseFloat(purchase.total_amt);
+        });
+
+        paymentsData.forEach(payment => {
+            totalPayments += parseFloat(payment.amount);
+        });
+
+        inventoryData.forEach(inventory => {
+            totalInventoryLeft += parseFloat(inventory.total_bal_qty);
+        });
+
+        // Calculate net profit
+        const netProfit = totalPayments - totalPurchasesAmt;
+
+        // Display results in the HTML
+        document.getElementById('total-sales-qty').textContent = totalSalesQty.toFixed(2);
+        document.getElementById('total-sales-amt').textContent = totalSalesAmt.toFixed(2);
+        document.getElementById('total-purchases-amt').textContent = totalPurchasesAmt.toFixed(2);
+        document.getElementById('total-payments').textContent = totalPayments.toFixed(2);
+        document.getElementById('net-profit').textContent = netProfit.toFixed(2);
+        document.getElementById('inventory-left').textContent = totalInventoryLeft.toFixed(2);
+    });
+</script>
+{% endblock %}

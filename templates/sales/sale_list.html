@@ -1,0 +1,114 @@
+{% extends 'parts/base.html' %}
+
+{% block title %}List of sale | قائمة البيع{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="card-header text-center pt-4 mb-3">
+    <h3>List of sale | قائمة البيع</h3>
+</div>
+
+<!-- Search Form -->
+<form method="GET" action="{% url 'sale_list' %}" class="form-inline mb-3">
+    <input type="text" name="search" class="form-control mr-sm-2" placeholder="Search by Customer or Product" value="{{ search_query }}">
+    <button type="submit" class="btn btn-outline-success">Search</button>
+    <a href="{% url 'sale_list' %}"></a><button type="submit" class="btn btn-outline-secondary">Clear</button></a>
+    
+
+</form>
+
+<!-- Sale List Table -->
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Product</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Total</th>
+        </tr>
+    </thead>
+    <tbody id="sales-tbody">
+        {% for sale in sales %}
+        <tr>
+            <td>{{ sale.product }}</td>
+            <td>{{ sale.customer }}</td>
+            <td class="qty">{{ sale.qty }}</td>
+            <td class="price">{{ sale.price }} SAR</td>
+            <td class="total">{{ sale.total_amt }} SAR</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="2">Total</td>
+            <td id="total-qty">0</td>
+            <td></td>
+            <td id="total-amount">0 SAR</td>
+        </tr>
+    </tfoot>
+</table>
+
+
+<!-- Pagination -->
+<div class="d-flex justify-content-center">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?search={{ search_query }}&page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item"><a class="page-link" href="?search={{ search_query }}&page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?search={{ search_query }}&page={{ page_obj.next_page_number }}">&raquo;</a></li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+<a href="{% url 'sale' %}" class="btn btn-primary">Add New sale</a>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    $("#id_sales").select2();
+});
+
+    // Calculate totals
+    function calculateTotals() {
+        var totalQty = 0;
+        var totalAmount = 0;
+
+        var qtyElements = document.querySelectorAll('#sales-tbody .qty');
+        var priceElements = document.querySelectorAll('#sales-tbody .price');
+        var totalElements = document.querySelectorAll('#sales-tbody .total');
+
+        qtyElements.forEach(function (element) {
+            totalQty += parseFloat(element.textContent);
+        });
+
+        totalElements.forEach(function (element) {
+            totalAmount += parseFloat(element.textContent.replace(' SAR', ''));
+        });
+
+        document.getElementById('total-qty').textContent = totalQty;
+        document.getElementById('total-amount').textContent = totalAmount.toFixed(2) + ' SAR';
+    }
+
+    // Run the calculation on page load
+    window.onload = calculateTotals;
+</script>
+
+{% endblock %}

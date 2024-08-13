@@ -1,0 +1,13 @@
+{% extends 'parts/base.html' %}
+
+{% block title %}delete unit | ازالة وحدة {% endblock %}
+
+{% block content %}
+  <h1>delete unit</h1>
+  <p>Are you sure you want to delete the Unit '{{ unit.short_name }}'?</p>
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="{% url 'home' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}

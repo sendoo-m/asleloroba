@@ -1,0 +1,131 @@
+{% extends 'parts/base.html' %}
+{% block title %}Customer Details | تفاصيل العميل {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="display-4 text-center mb-4">Customer Details</h2>
+      <div class="card mb-4">
+        <div class="card-body">
+          <h4 class="card-title">Customer Details</h4>
+          <p class="card-text"><strong>Name:</strong> {{ customer.name }}</p>
+          <p class="card-text"><strong>Phone:</strong> {{ customer.phone }}</p>
+          <p class="card-text"><strong>Address:</strong> {{ customer.address }}</p>
+          {% if customer.photo %}
+            <div class="text-center my-3">
+              <img src="{{ customer.photo.url }}" alt="Customer Photo" class="img-fluid rounded" style="max-width: 200px;">
+            </div>
+          {% else %}
+            <p class="text-warning">No photo available.</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-body">
+          <h4 class="card-title">Financial Overview</h4>
+          <div class="row">
+            <div class="col-md-4">
+              <p class="card-text"><strong>Total Purchases:</strong> {{ total_purchases }} SAR</p>
+            </div>
+            <div class="col-md-4">
+              <p class="card-text"><strong>Total Paid:</strong> {{ total_paid }} SAR</p>
+            </div>
+            <div class="col-md-4">
+              <p class="card-text"><strong>Balance:</strong> {{ balance }} SAR</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-body">
+          <h4 class="card-title">Purchase History</h4>
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Date</th>
+                  <th>Product</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Total Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for sale in sales %}
+                <tr>
+                  <td>{{ sale.sale_date }}</td>
+                  <td>{{ sale.product.title }}</td>
+                  <td>{{ sale.qty }}</td>
+                  <td>{{ sale.price }} SAR</td>
+                  <td>{{ sale.total_amt }} SAR</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-body">
+          <h4 class="card-title">Payment History</h4>
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Receipt number</th>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Payment Method</th>
+                  <th>paid</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                {% for payment in payments %}
+                <tr>
+                  <td><a href="{% url 'payment_receipt' payment.id %}" class="btn btn-secondary">{{ payment.installment_number }}</a></td>
+                  <td>{{ payment.receipt_date }}</td>
+                  <td>{{ payment.amount }} SAR</td>
+                  <td>{{ payment.payment_method }}</td>
+                  <td>{{ payment.paid }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+           <!-- Pagination Section -->
+    <div class="d-flex justify-content-center">
+      <nav aria-label="Page navigation">
+          <ul class="pagination">
+              {% if page_obj.has_previous %}
+                  <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+              {% else %}
+                  <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+              {% endif %}
+              {% for num in page_obj.paginator.page_range %}
+                  {% if page_obj.number == num %}
+                      <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                  {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                      <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                  {% endif %}
+              {% endfor %}
+              {% if page_obj.has_next %}
+                  <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+              {% else %}
+                  <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+              {% endif %}
+          </ul>
+      </nav>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

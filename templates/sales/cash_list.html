@@ -1,0 +1,17 @@
+<!-- sales/templates/sales/cash_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cash Payment List</title>
+</head>
+<body>
+    <h1>Cash Payment List</h1>
+    <ul>
+        {% for cash in cash_payments %}
+            <li>{{ cash.customer.name }} - ${{ cash.amount }} - Method: {{ cash.get_payment_method_display }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'manage_cash' %}">Add New Cash Payment</a>
+</body>
+</html>

@@ -1,0 +1,99 @@
+{% extends 'parts/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="display-4 text-center mb-4">Customer Purchase History</h2>
+      <div class="card mb-4">
+        <div class="card-body">
+          <h4 class="card-title">Customer Details</h4>
+          <p class="card-text"><strong>Name:</strong> {{ customer.name }}</p>
+          <p class="card-text"><strong>Phone:</strong> {{ customer.phone }}</p>
+          <p class="card-text"><strong>Address:</strong> {{ customer.address }}</p>
+          {% if customer.photo %}
+            <div class="text-center my-3">
+              <img src="{{ customer.photo.url }}" alt="Customer Photo" class="img-fluid rounded" style="max-width: 200px;">
+            </div>
+          {% else %}
+            <p class="text-warning">No photo available.</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-body">
+          <h4 class="card-title">Financial Overview</h4>
+          <div class="row">
+            <div class="col-md-4">
+              <p class="card-text"><strong>Total Purchases:</strong> {{ total_purchases }} SAR</p>
+            </div>
+            <div class="col-md-4">
+              <p class="card-text"><strong>Total Paid:</strong> {{ total_paid }} SAR</p>
+            </div>
+            <div class="col-md-4">
+              <p class="card-text"><strong>Balance:</strong> {{ balance }} SAR</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-body">
+          <h4 class="card-title">Purchase History</h4>
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Date</th>
+                  <th>Product</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Total Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for sale in sales %}
+                <tr>
+                  <td>{{ sale.sale_date }}</td>
+                  <td>{{ sale.product.title }}</td>
+                  <td>{{ sale.qty }}</td>
+                  <td>{{ sale.price }} SAR</td>
+                  <td>{{ sale.total_amt }} SAR</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-body">
+          <h4 class="card-title">Payment History</h4>
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Payment Method</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for payment in payments %}
+                <tr>
+                  <td>{{ payment.receipt_date }}</td>
+                  <td>{{ payment.amount }} SAR</td>
+                  <td>{{ payment.payment_method }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

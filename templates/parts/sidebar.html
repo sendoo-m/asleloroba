@@ -1,0 +1,236 @@
+    <style>
+        /* Basic styling for a fixed sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 250px; /* Adjust width as needed */
+            background-color: #f8f9fa; /* Light background for sidebar */
+            color: #212529; /* Dark text color */
+            overflow-y: auto; /* Scroll if content overflows */
+            border-right: 1px solid #dee2e6; /* Optional border */
+            transition: all 0.3s; /* Smooth transition for collapse */
+        }
+
+        .sidebar.collapsed {
+            width: 80px; /* Adjust width for collapsed state */
+        }
+
+        .sidebar .sidebar-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .sidebar .separator {
+            border-top: 1px solid #dee2e6;
+            margin: 1rem 0;
+        }
+
+        .sidebar .nav-link {
+            color: #495057;
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+        }
+
+        .sidebar .nav-link.active {
+            background-color: #e9ecef; /* Background color for active link */
+            color: #212529;
+        }
+
+        .sidebar .nav-link i {
+            margin-right: 0.75rem;
+        }
+
+        .sidebar .nav-item span {
+            font-size: 0.875rem;
+        }
+
+        .toggle-btn {
+            cursor: pointer;
+            font-size: 1.25rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <nav class="sidebar bg-light p-3" id="sidebar">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="sidebar-title">Asl Eloroba</h4>
+                <span class="toggle-btn" id="toggle-btn"><i class="fas fa-bars"></i></span>
+            </div>
+        
+            <ul class="nav flex-column mt-4">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'home' %}">
+                        <i class="bi bi-house-door"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+        
+                <div class="separator"></div>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'customer_list' %}">
+                        <i class="bi bi-people"></i>
+                        <span>Customer List</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register_customer' %}">
+                        <i class="bi bi-person-plus"></i>
+                        <span>Create Customer</span>
+                    </a>
+                </li>
+        
+                <!-- New Sections -->
+                <div class="separator"></div>
+                <div class="sidebar-title">EMPLOYEE MANAGEMENT</div>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor_list' %}">
+                        <i class="bi bi-person-lines-fill"></i>
+                        <span>Employee List</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register_vendor' %}">
+                        <i class="bi bi-person-plus"></i>
+                        <span>Create Employee</span>
+                    </a>
+                </li>
+        
+                <!-- Sales Department Title -->
+                <div class="separator"></div>
+                <div class="sidebar-title">SALES DEPARTMENT</div>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'sale_list' %}">
+                        <i class="bi bi-cart"></i>
+                        <span>Sale List</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'sale' %}">
+                        <i class="bi bi-cart-plus"></i>
+                        <span>Create Sale</span>
+                    </a>
+                </li>
+        
+                <!-- Purchasing Department Title -->
+                <div class="separator"></div>
+                <div class="sidebar-title">PURCHASING DEPARTMENT</div>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'purchase_list' %}">
+                        <i class="bi bi-receipt"></i>
+                        <span>Purchase List</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'purchase_create' %}">
+                        <i class="bi bi-receipt-cutoff"></i>
+                        <span>Create Purchase</span>
+                    </a>
+                </li>
+        
+                <!-- Inventory Department Title -->
+                <div class="separator"></div>
+                <div class="sidebar-title">INVENTORY DEPARTMENT</div>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'unit_list' %}">
+                        <i class="bi bi-list-ul"></i>
+                        <span>Unit List</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'unit_create' %}">
+                        <i class="bi bi-plus-square"></i>
+                        <span>Create Unit</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'product_list' %}">
+                        <i class="bi bi-bag"></i>
+                        <span>Product List</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'product_create' %}">
+                        <i class="bi bi-bag-plus"></i>
+                        <span>Create Product</span>
+                    </a>
+                </li>
+                <div class="separator"></div>
+                <div class="sidebar-title">Payment DEPARTMENT</div>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'payment_list' %}">
+                        <i class="bi bi-wallet2"></i>
+                        <span>Payment List</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'payment_create' %}">
+                        <i class="bi bi-wallet2"></i>
+                        <span>Create Payment</span>
+                    </a>
+                </li>
+        
+                <!-- Reports Department Title -->
+                <div class="separator"></div>
+                <div class="sidebar-title">REPORTS DEPARTMENT</div>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'inventory_list' %}">
+                        <i class="bi bi-box"></i>
+                        <span>Inventory Report</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'customer_employee_report' %}">
+                        <i class="bi bi-people"></i>
+                        <span>Customers & Employees</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'financial_report' %}">
+                        <i class="bi bi-wallet2"></i>
+                        <span>Financial Report</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'product_report' %}">
+                        <i class="bi bi-bag"></i>
+                        <span>Product Report</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'daily_report' %}">
+                        <i class="bi bi-bar-chart"></i>
+                        <span>Daily Report</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'report' %}">
+                        <i class="bi bi-graph-up"></i>
+                        <span>Reports</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register_return' %}">
+                        <i class="bi bi-arrow-repeat"></i>
+                        <span>Register Return</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+    </div>
+
+    {% block scripts %}
+    <script>
+        document.getElementById('toggle-btn').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        });
+    </script>
+    {% endblock %}
+

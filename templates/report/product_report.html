@@ -1,0 +1,70 @@
+{% extends 'parts/base.html' %}
+
+{% block title %}Product Report{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Product Transactions</h1>
+
+    <div class="row">
+        {% for product in product_stats %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-header text-white bg-primary">
+                    <h5 class="card-title">{{ product.product.title }}</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <th>إجمالي كمية المشتريات</th>
+                                <td class="total-purchase">{{ product.total_purchase_qty }}</td>
+                            </tr>
+                            <tr>
+                                <th>إجمالي كمية المبيعات</th>
+                                <td class="total-sales">{{ product.total_sales_qty }}</td>
+                            </tr>
+                            <tr>
+                                <th>إجمالي المخزن</th>
+                                <td class="total-inventory"></td>
+                            </tr>
+                            <tr>
+                                <th>إجمالي الايرادات بالريال</th>
+                                <td>{{ product.total_revenue }}</td>
+                            </tr>
+                            <tr>
+                                <th>إجمالي التكلفة بالريال</th>
+                                <td>{{ product.total_cost }}</td>
+                            </tr>
+                            <tr>
+                                <th>إجمالي الربح</th>
+                                <td>{{ product.product_profit }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-warning text-center">
+                No data available.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('.card').forEach(function(card) {
+                const totalPurchaseQty = parseFloat(card.querySelector('.total-purchase').textContent) || 0;
+                const totalSalesQty = parseFloat(card.querySelector('.total-sales').textContent) || 0;
+                const totalInventory = totalPurchaseQty - totalSalesQty;
+                
+                card.querySelector('.total-inventory').textContent = totalInventory.toFixed(2);
+            });
+        });
+    </script>
+    
+{% endblock %}

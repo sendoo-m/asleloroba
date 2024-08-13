@@ -1,0 +1,29 @@
+<style>
+    /* Basic styling for a fixed sidebar */
+/* Ensure the footer is aligned with the content next to the sidebar */
+.footer {
+    position: relative;
+    left: 250px; /* Adjust this value according to the width of your sidebar */
+    width: calc(100% - 250px); /* Adjust this value to ensure the footer takes the remaining width */
+    background-color: #f8f9fa; /* Optional: match the background color with the sidebar for a seamless look */
+}
+
+@media (max-width: 768px) {
+    .footer {
+        left: 0;
+        width: 100%;
+    }
+}
+
+</style>
+<footer class="footer py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-10 mx-auto text-center mt-1">
+                <p class="mb-0 text-secondary">
+                    &copy; 2024 | Made with ♥ by Eng. Mohamed Gamal. Tel: +966544968675. Whatsapp: +966510896610. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>

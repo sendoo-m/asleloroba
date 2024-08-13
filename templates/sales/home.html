@@ -1,0 +1,175 @@
+{% extends 'parts/base.html' %}
+
+{% block title %} Home | الرئيسية {% endblock %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="display-4 text-center mb-4">Welcome to the Asl Eloroba Management System</h2>
+  <p class="lead text-center mb-5">Manage Asl Eloroba Customer, Employee, Installment, and more with ease.</p>
+  
+  <div class="row">
+    <!-- Customer List -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <i class="bi bi-people-fill" style="font-size: 3rem;"></i>
+          <h5 class="card-title mt-3">Customer List</h5>
+          <a href="{% url 'customer_list' %}" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Sale List -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <i class="bi bi-cart-fill" style="font-size: 3rem;"></i>
+          <h5 class="card-title mt-3">Sale List</h5>
+          <a href="{% url 'sale_list' %}" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Sale -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <i class="bi bi-cash-stack" style="font-size: 3rem;"></i>
+          <h5 class="card-title mt-3">Sale</h5>
+          <a href="{% url 'sale' %}" class="btn btn-primary">Create</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Inventory List -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <i class="bi bi-boxes" style="font-size: 3rem;"></i>
+          <h5 class="card-title mt-3">Inventory List</h5>
+          <a href="{% url 'inventory_list' %}" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Unit List -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <i class="bi bi-list-ul" style="font-size: 3rem;"></i>
+          <h5 class="card-title mt-3">Unit List</h5>
+          <a href="{% url 'unit_list' %}" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Product List -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <i class="bi bi-bag-fill" style="font-size: 3rem;"></i>
+          <h5 class="card-title mt-3">Product List</h5>
+          <a href="{% url 'product_list' %}" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Purchase List -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <i class="bi bi-receipt-cutoff" style="font-size: 3rem;"></i>
+          <h5 class="card-title mt-3">Purchase List</h5>
+          <a href="{% url 'purchase_list' %}" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Create Purchase -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <i class="bi bi-cart-plus-fill" style="font-size: 3rem;"></i>
+          <h5 class="card-title mt-3">Create Purchase</h5>
+          <a href="{% url 'purchase_create' %}" class="btn btn-primary">Create</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Payment List -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <i class="bi bi-wallet2" style="font-size: 3rem;"></i>
+          <h5 class="card-title mt-3">Payment List</h5>
+          <a href="{% url 'payment_list' %}" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Create Payment -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <i class="bi bi-credit-card" style="font-size: 3rem;"></i>
+          <h5 class="card-title mt-3">Create Payment</h5>
+          <a href="{% url 'payment_create' %}" class="btn btn-primary">Create</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <i class="bi bi-bar-chart-line-fill" style="font-size: 3rem;"></i>
+          <h5 class="card-title mt-3">Customer & Employee Report</h5>
+          <a href="{% url 'customer_employee_report' %}" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <i class="bi bi-wallet2" style="font-size: 3rem;"></i>
+          <h5 class="card-title mt-3">Financial Report</h5>
+          <a href="{% url 'financial_report' %}" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <i class="bi bi-box-seam" style="font-size: 3rem;"></i>
+          <h5 class="card-title mt-3">Product Report</h5>
+          <a href="{% url 'product_report' %}" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+        
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <i class="bi bi-bar-chart-line-fill" style="font-size: 3rem;"></i>
+          <h5 class="card-title mt-3">Daily Report</h5>
+          <a href="{% url 'daily_report' %}" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div> 
+
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <i class="bi bi-boxes" style="font-size: 3rem;"></i>
+          <h5 class="card-title mt-3">Return</h5>
+          <a href="{% url 'register_return' %}" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends 'parts/base.html' %}
+
+{% block title %}Payment Receipt | إيصال الدفع{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div id="printableArea" class="card shadow-sm p-4" style="border: 2px solid #007bff; border-radius: 10px;">
+        <div class="card-header text-center bg-info text-white">
+          <h3>Payment Receipt</h3>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <th>Customer Name:</th>
+                <td>{{ customer.name }}</td>
+              </tr>
+              <tr>
+                <th>Payment Date:</th>
+                <td>{{ payment.receipt_date }}</td>
+              </tr>
+              <tr>
+                <th>Payment Amount:</th>
+                <td>{{ payment.amount }} SAR</td>
+              </tr>
+              <tr>
+                <th>Payment Method:</th>
+                <td>{{ payment.payment_method }}</td>
+              </tr>
+              <tr>
+                <th>Payment Done:</th>
+                <td>{{ payment.paid|yesno:"Yes,No" }}</td>
+              </tr>
+              <tr>
+                <th>Balance:</th>
+                <td>{{ balance }} SAR</td>
+              </tr>
+              <tr>
+                <th>Payment Vendor:</th>
+                <td>{{ payment.vendor.full_name }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <button onclick="printDiv('printableArea')" class="btn btn-success">Print Receipt</button>
+        <a href="{% url 'payment_list' %}" class="btn btn-secondary">Back to Payments</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Purchase History and Summary sections will not be printed -->
+  <div class="card mb-4">
+    <div class="card-body">
+        <h4 class="card-title">Purchase History</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Date</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sale in sales %}
+                    <tr>
+                        <td>{{ sale.sale_date }}</td>
+                        <td>{{ sale.product.title }}</td>
+                        <td>{{ sale.qty }}</td>
+                        <td>{{ sale.price }} SAR</td>
+                        <td>{{ sale.total_amt }} SAR</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Summary the Payment Details -->
+<div class="card mb-4">
+  <div class="card-body">
+      <h4 class="card-title">Summary</h4>
+      <div class="row">
+          <div class="col-md-6">
+              <p class="card-text"><strong>Total Purchases:</strong> {{ total_purchases }} SAR</p>
+          </div>
+          <div class="col-md-6">
+              <p class="card-text"><strong>Balance:</strong> {{ balance }} SAR</p>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
+
+<!-- Print only the Payment Details -->
+<script>
+  function printDiv(divName) {
+    var printContents = document.getElementById(divName).innerHTML;
+    var originalContents = document.body.innerHTML;
+  
+    document.body.innerHTML = printContents;
+  
+    window.print();
+  
+    document.body.innerHTML = originalContents;
+  }
+  </script>
+  
+  {% endblock %}

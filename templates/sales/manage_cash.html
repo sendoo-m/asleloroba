@@ -1,0 +1,17 @@
+<!-- sales/templates/sales/manage_cash.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Cash Payment</title>
+</head>
+<body>
+    <h1>Manage Cash Payment</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+    <a href="{% url 'cash_list' %}">View Cash Payments</a>
+</body>
+</html>

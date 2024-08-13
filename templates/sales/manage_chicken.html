@@ -1,0 +1,17 @@
+<!-- sales/templates/sales/manage_chicken.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Chicken</title>
+</head>
+<body>
+    <h1>Add/Manage Chicken</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+    <a href="{% url 'chicken_list' %}">View Chickens</a>
+</body>
+</html>

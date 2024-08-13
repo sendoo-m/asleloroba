@@ -1,0 +1,119 @@
+{% extends 'parts/base.html' %}
+
+{% block title %}List of Inventory | قائمة المخزون {% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <!-- Header Section -->
+    <div class="card-header text-center pt-4 mb-3">
+        <h3>List of Inventory | قائمة المخزون </h3>
+    </div>
+
+    <!-- Search Form -->
+    <form method="get" class="form-inline mb-3">
+        <div class="form-group mr-2">
+            {{ search_form.search_query.label_tag }}
+            {{ search_form.search_query }}
+        </div>
+        <div class="form-group mr-2">
+            {{ search_form.product.title.label_tag }}
+            {{ search_form.product.title }}
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+        <a href="{% url 'inventory_list' %}" class="btn btn-secondary ml-2">Clear</a>
+    </form>
+
+    <!-- Customer Table -->
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Purchase Quantity</th>
+                <th>Sale Quantity</th>
+                <th>Total Balance Quantity</th>
+            </tr>
+        </thead>
+        <tbody id="inventories-tbody">
+            {% for inventory in page_obj %}
+            <tr>
+                <td>{{ inventory.product.title }}</td>
+                <td class="pur_qty">{{ inventory.pur_qty }}</td>
+                <td class="sale_qty">{{ inventory.sale_qty }}</td>
+                <td class="balance_qty">
+                    {{ inventory.pur_qty|floatformat:2 }} - {{ inventory.sale_qty|floatformat:2 }} = {{ inventory.pur_qty|floatformat:2|default:0|stringformat:"d" }} - {{ inventory.sale_qty|floatformat:2|default:0|stringformat:"d" }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="1">Total Balance Quantity</td>
+                <th id="total-purchase-quantity"></th>
+                <th id="total-sale-quantity"></th>
+                <th id="total-balance-quantity"></th>
+            </tr>
+        </tfoot>
+    </table>
+    <!-- Pagination Section -->
+    <div class="d-flex justify-content-center">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Add New Customer Button -->
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    $("#id_sales").select2();
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    let totalPurchase = 0;
+    let totalSale = 0;
+    let totalBalance = 0;
+
+    // Iterate through each row to calculate the quantities and totals
+    document.querySelectorAll('#inventories-tbody tr').forEach(function(row) {
+        const purQty = parseFloat(row.querySelector('.pur_qty').textContent) || 0;
+        const saleQty = parseFloat(row.querySelector('.sale_qty').textContent) || 0;
+        const balanceQty = purQty - saleQty;
+
+        // Update the balance quantity in the table
+        row.querySelector('.balance_qty').textContent = balanceQty.toFixed(2);
+
+        // Add to the totals
+        totalPurchase += purQty;
+        totalSale += saleQty;
+        totalBalance += balanceQty;
+    });
+
+    // Display the totals in the footer
+    document.getElementById('total-purchase-quantity').textContent = totalPurchase.toFixed(2);
+    document.getElementById('total-sale-quantity').textContent = totalSale.toFixed(2);
+    document.getElementById('total-balance-quantity').textContent = totalBalance.toFixed(2);
+});
+</script>
+
+{% endblock %}

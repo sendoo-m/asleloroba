@@ -1,0 +1,83 @@
+{% extends 'parts/base.html' %}
+
+{% block title %}List of Products | قائمة المنتجات{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="text-center">Products</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <a href="{% url 'product_create' %}" class="btn btn-primary mb-3">Create New Product</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-hover table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Title</th>
+                        <th>Detail</th>
+                        <th>Unit</th>
+                        <th>Photo</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td>{{ product.title }}</td>
+                        <td>{{ product.detail }}</td>
+                        <td>{{ product.unit.title }}</td>
+                        <td class="text-center">
+                            {% if product.photo %}
+                            <img src="{{ product.photo.url }}" alt="{{ product.title }}" class="img-thumbnail rounded"
+                                style="width: 100px; height: 100px; object-fit: cover;">
+                            {% else %}
+                            <p class="text-muted">No photo available.</p>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <a href="{% url 'product_update' product.pk %}" class="btn btn-sm btn-warning">Update</a>
+                            <a href="{% url 'product_delete' product.pk %}" class="btn btn-sm btn-danger"
+                                onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+         <!-- Pagination -->
+    <div class="d-flex justify-content-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?search={{ search_query }}&page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item"><a class="page-link" href="?search={{ search_query }}&page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?search={{ search_query }}&page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    
+    </div>
+</div>
+{% endblock %}

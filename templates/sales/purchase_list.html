@@ -1,0 +1,88 @@
+{% extends 'parts/base.html' %}
+
+{% block title %}List of Purchases | قائمة المشتريات{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+  
+  <div class="container mt-5">
+    <div class="row mb-4">
+      <div class="col">
+        <h1 class="text-center">Purchases</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+            <a href="{% url 'purchase_create' %}" class="btn btn-primary mb-3">Create New Purchase</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+          <table class="table table-hover table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Product</th>
+                    <th>Vendor</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total Amount</th>
+                    <th>Purchase Date</th>
+                    <th>Expire Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="purchase-tbody">
+                {% for purchase in purchases %}
+                <tr>
+                    <td>{{ purchase.product.title }}</td>
+                    <td>{{ purchase.vendor.full_name }}</td>
+                    <td class="purchase-qty">{{ purchase.qty }}</td>
+                    <td>{{ purchase.price }}</td>
+                    <td class="purchase-total-amt">{{ purchase.total_amt }}</td>
+                    <td>{{ purchase.pur_date }}</td>
+                    <td>{{ purchase.expire_date }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'purchase_update' purchase.pk %}" class="btn btn-sm btn-warning">Update</a>
+                        <a href="{% url 'purchase_delete' purchase.pk %}" class="btn btn-sm btn-danger"
+                            onclick="return confirm('Are you sure you want to delete this purchase?');">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="2">Total</th>
+                    <th id="total-quantity"></th>
+                    <th></th>
+                    <th id="total-amount"></th>
+                    <th colspan="3"></th>
+                </tr>
+            </tfoot>
+        </table>
+        
+        
+        
+        </div>
+    </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      let totalQuantity = 0;
+      let totalAmount = 0;
+
+      // Iterate through each row in the tbody to calculate totals
+      document.querySelectorAll('#purchase-tbody tr').forEach(function(row) {
+          const qty = parseFloat(row.querySelector('.purchase-qty').textContent) || 0;
+          const amt = parseFloat(row.querySelector('.purchase-total-amt').textContent) || 0;
+
+          totalQuantity += qty;
+          totalAmount += amt;
+      });
+
+      // Display the totals in the tfoot
+      document.getElementById('total-quantity').textContent = totalQuantity.toFixed(2);
+      document.getElementById('total-amount').textContent = totalAmount.toFixed(2);
+  });
+</script>
+{% endblock %}
